@@ -13,7 +13,15 @@
                 </div>
             </template>
             <template v-else>
-
+                <select class="form-select" v-model="newEventPriority">
+                    <option value="-1">Hoch</option>
+                    <option value="0">Mittel</option>
+                    <option value="1">Tief</option>
+                </select>
+                <input type="text" class="form-control mt-2" ref="newEventTitleInput" :placeholder="event.title"
+                    @input="setNewEventTitle($event)" />
+                <hr>
+                <i class="fas fa-check" role="button" @click="saveEdit()"></i>
             </template>
         </div>
     </div>
@@ -29,6 +37,12 @@ export default {
     props: {
         event: Object,
         day: Object,
+    },
+    data() {
+        return {
+            newEventTitle: this.event.title,
+            newEventPriority: this.event.priority,
+        }
     },
     computed: {
         priorityDisplayName() {
@@ -51,7 +65,19 @@ export default {
             Store.mutations.deleteEvent(this.day.id, this.event.title);
         },
         editEvent() {
-            null
+            Store.mutations.editEvent(this.day.id, this.event.title);
+            this.$nextTick(() => {
+                this.$refs.newEventTitleInput.focus();
+            });
+        },
+        setNewEventTitle(event) {
+            this.newEventTitle = event.target.value;
+        },
+        setNewEventPriority(event) {
+            this.newEventPriority = event.target.value;
+        },
+        saveEdit() {
+            Store.mutations.updateEvent(this.day.id, this.event.title, { title: this.newEventTitle, priority: this.newEventPriority });
         }
     }
 }
