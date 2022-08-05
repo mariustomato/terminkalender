@@ -14,10 +14,10 @@
                 <hr />
                 <ul class="nav nav-pills nav-fill">
                     <li class="nav-item" role="button">
-                        <a class="nav-link"><i class="fas fa-sort-numeric-down-alt text-success"></i></a>
+                        <a class="nav-link" :class="isActiveOrder('priority')" @click="changeOrder('priority')"><i class="fas fa-sort-numeric-down-alt text-success"></i></a>
                     </li>
                     <li class="nav-item" role="button">
-                        <a class="nav-link"><i class="fas fa-sort-alpha-down text-success"></i></a>
+                        <a class="nav-link" :class="isActiveOrder('title')" @click="changeOrder('title')"><i class="fas fa-sort-alpha-down text-success"></i></a>
                     </li>
                 </ul>
             </div>
@@ -45,6 +45,14 @@ export default {
         },
         isActiveView(componentName) {
             if (componentName === Store.getters.activeView()) {
+                return ["border border-success"];
+            }
+        },
+        changeOrder(order) {
+            Store.mutations.setOrder(order);
+        },
+        isActiveOrder(order) {
+            if (order === Store.getters.activeOrder()) {
                 return ["border border-success"];
             }
         }

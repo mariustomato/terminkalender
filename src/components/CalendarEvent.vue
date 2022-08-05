@@ -1,28 +1,30 @@
 <template>
     <div id="calendar-event">
         <div class="alert text-center" :class="alertColor">
-            <template v-if="!event.edit">
-                <div>
-                    <slot name="eventPriority" :priorityDisplayName="priorityDisplayName"><strong>No Priority
-                            :c</strong></slot>
+            <transition name="fade" mode="out-in">
+                <div v-if="!event.edit">
+                    <div>
+                        <slot name="eventPriority" :priorityDisplayName="priorityDisplayName"><strong>No Priority
+                                :c</strong></slot>
+                    </div>
+                    <slot :event="event"> Failed :C </slot>
+                    <div>
+                        <i class="fas fa-edit me-2" role="button" @click="editEvent()"></i>
+                        <i class="far fa-trash-alt" role="button" @click="deleteEvent()"></i>
+                    </div>
                 </div>
-                <slot :event="event"> Failed :C </slot>
-                <div>
-                    <i class="fas fa-edit me-2" role="button" @click="editEvent()"></i>
-                    <i class="far fa-trash-alt" role="button" @click="deleteEvent()"></i>
+                <div v-else>
+                    <select class="form-select" v-model="newEventPriority">
+                        <option value="-1">Hoch</option>
+                        <option value="0">Mittel</option>
+                        <option value="1">Tief</option>
+                    </select>
+                    <input type="text" class="form-control mt-2" ref="newEventTitleInput" :placeholder="event.title"
+                        @input="setNewEventTitle($event)" />
+                    <hr>
+                    <i class="fas fa-check" role="button" @click="saveEdit()"></i>
                 </div>
-            </template>
-            <template v-else>
-                <select class="form-select" v-model="newEventPriority">
-                    <option value="-1">Hoch</option>
-                    <option value="0">Mittel</option>
-                    <option value="1">Tief</option>
-                </select>
-                <input type="text" class="form-control mt-2" ref="newEventTitleInput" :placeholder="event.title"
-                    @input="setNewEventTitle($event)" />
-                <hr>
-                <i class="fas fa-check" role="button" @click="saveEdit()"></i>
-            </template>
+            </transition>
         </div>
     </div>
 
