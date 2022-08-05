@@ -20,7 +20,7 @@
               <i class="fas fa-cogs"></i>
             </button>
           </div>
-          <transition enter-active-class="animate__animated animate__bounceInRight" leave-active-class="animate__animated animate__bounceOutRight">
+          <transition enter-active-class="animate__animated animate__bounceInRight" leave-active-class="animate__animated animate__hinge">
             <CalendarSettings v-show="settings" />
           </transition>
 <!--          <transition name="fade">
